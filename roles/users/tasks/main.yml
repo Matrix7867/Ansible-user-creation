@@ -1,0 +1,24 @@
+---
+#- hosts: localhost
+  
+#- tasks:
+
+- name: Adds user's task
+  user: 
+    name: "{{ USERS }}" 
+    shell: /bin/bash 
+    groups: sudo
+    append: yes
+
+- name: Add users to sudoers list
+  lineinfile: 
+    dest: /etc/sudoers 
+    regexp: '^%{{ USERS }}'  
+    line: '%{{ USERS }} ALL=(ALL) NOPASSWD:ALL'
+
+- name: Placing key's task
+  authorized_key: 
+    user: '{{ USERS }}' 
+    key: '{{ lookup ("file","./keys/{{USER_KEY}}" ) }}'
+  notify:
+    - Reload SSH

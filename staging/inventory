@@ -1,0 +1,16 @@
+[test-instance]
+X.X.X.X
+
+
+
+[test-instance:vars]
+ansible_port=33022
+ansible_ssh_user=ubuntu
+host_key_checking = False
+ansible_python_interpreter= '/usr/bin/python'
+ssh_args = -o ForwardAgent=yes
+ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null
+
+
+
+

@@ -1,0 +1,3 @@
+---
+USERS: "{{ username }}"
+USER_KEY: "{{ key }}"
