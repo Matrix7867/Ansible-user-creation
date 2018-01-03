@@ -1,7 +1,4 @@
 ---
-#- hosts: localhost
-  
-#- tasks:
 
 - name: Adds user's task
   user: 
