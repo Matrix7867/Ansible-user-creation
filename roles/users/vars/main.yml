@@ -1,3 +1,5 @@
 ---
-USERS: "{{ username }}"
-USER_KEY: "{{ key }}"
+user_name: "{{ username }}"
+user_password: "{{ passwd }}"
+
+

@@ -1,21 +1,35 @@
 ---
 
+
+- name: Generate random password
+  local_action: shell  mkpasswd --method=SHA-512 "{{ user_password }}"
+  register: user_pw
+
 - name: Adds user's task
   user: 
-    name: "{{ USERS }}" 
+    name: "{{ user_name }}" 
     shell: /bin/bash 
-    groups: sudo
     append: yes
+    update_password: always
+    password: "{{user_pw.stdout}}"
 
-- name: Add users to sudoers list
-  lineinfile: 
-    dest: /etc/sudoers 
-    regexp: '^%{{ USERS }}'  
-    line: '%{{ USERS }} ALL=(ALL) NOPASSWD:ALL'
+- name: Is the user required sudo or not?
+  command: adduser "{{ username }}" sudo
+  when: is_user_admin == "yes"
+
+- name: Is this user is automated user?
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%{{ user_name }}"
+    line: "%{{ user_name }} ALL=(ALL) NOPASSWD:ALL"
+  when: is_user_automated == "yes" 
 
 - name: Placing key's task
-  authorized_key: 
-    user: '{{ USERS }}' 
-    key: '{{ lookup ("file","./keys/{{USER_KEY}}" ) }}'
+  authorized_key:
+    user: '{{ user_name }}'
+    key: '{{ lookup ("file","./keys/{{user_name}}.pub" ) }}'
   notify:
     - Reload SSH
+
+- name: Store the password values in my_password.txt
+  shell: echo "{{ user_password }}" > /home/{{ user_name }}/my_password.txt

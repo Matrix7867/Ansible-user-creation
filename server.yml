@@ -2,5 +2,17 @@
 - hosts: all
   become_user: root
   become: yes
+
+  vars_prompt:
+    - name: "is_user_admin"
+      prompt: "Is this user required sudo?"
+      default: "no"
+      private: no
+
+    - name: "is_user_automated"
+      prompt: "Is this automated_user?"
+      default: "no"
+      private: no
+
   roles:
     - users

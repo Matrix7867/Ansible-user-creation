@@ -1,9 +1,7 @@
-[test-instance]
-X.X.X.X
+[reposi]
+xx.xx.xx.xx
 
-
-
-[test-instance:vars]
+[reposi:vars]
 ansible_port=33022
 ansible_ssh_user=ubuntu
 host_key_checking = False
